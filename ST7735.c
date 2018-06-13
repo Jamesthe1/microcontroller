@@ -469,6 +469,7 @@ static int16_t _height = ST7735_TFTHEIGHT;
 void static writecommand(uint8_t c) {
                                         // wait until SSI0 not busy/transmit FIFO empty
   while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
+  while((SSI0_SR_R&SSI_SR_TNF)==0){};   // wait until transmit FIFO not full
 //  DC_PIN = DC_COMMAND;
   ST7735_CS = 0;
 
@@ -482,7 +483,8 @@ void static writecommand(uint8_t c) {
 
 void static writedata(uint8_t c) {
     ST7735_CS = 0;
-  while((SSI0_SR_R&SSI_SR_TNF)==0){};   // wait until transmit FIFO not full
+    while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};   // wait until complete
+    while((SSI0_SR_R&SSI_SR_TNF)==0){};   // wait until transmit FIFO not full
 //  DC_PIN = DC_DATA;
   int dtrans = 0x0100 | c;
   SSI0_DR_R = dtrans;                        // data out

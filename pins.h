@@ -37,7 +37,7 @@
 
 
 #define  ST7735_CS       * ( BITBAND(GPIO_PORTC_DATA_R,5) )
-#define  ST7735_RST       * ( BITBAND(GPIO_PORTA_DATA_R,3) )
+#define  ST7735_RST      * ( BITBAND(GPIO_PORTA_DATA_R,3) )
 
 
 
